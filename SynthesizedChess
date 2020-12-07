@@ -1,0 +1,41 @@
+def make_board(num_rows, num_columns):
+    board = []
+    for i in range(num_rows):
+        board.append([])
+        for j in range(num_columns):
+            board[i].append(' ')
+    return board
+
+def print_row(row, row_number):
+    row_text = str(row_number) + ' │ '
+    for item in row:
+        row_text += str(item) + ' │ '
+    print(row_text)
+
+def print_board(board):
+    print('  ┌───' + '┬───' * (len(board[0]) - 1) + '┐')
+    for i in range(len(board) - 1):
+        print_row(board[i], len(board) - i)
+        print('  ├───' + '┼───' * (len(board[0]) - 1) + '┤')
+    print_row(board[-1], len(board))
+    print('  └───' + '┴───' * (len(board[-1]) - 1) + '┘')
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    column_letters = ' '
+    for i in range(len(board[-1])):
+        column_letters += '   ' + alphabet[i]
+    print(column_letters)
+
+def get_legal_moves(board, position):
+    legal_moves = []
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            # Every space that is exactly 1 row and 2 columns or 2 rows and 1
+            # column away from the knight.
+            if abs(i - position[0]) + abs(j - position[1]) == 3 \
+               and abs(i - position[0]) < 3 and abs(j - position[1]) < 3 \
+               and -1 not in [i, j] and len(board) not in [i, j]:
+                legal_moves.append([i, j])
+    return legal_moves
+
+board = make_board(8, 8)
+print_board(board)
